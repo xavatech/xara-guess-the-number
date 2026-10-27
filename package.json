@@ -1,0 +1,21 @@
+{
+  "name": "xara-guess-the-number",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Guess the Number for Xara chats, built with the Xara game SDK.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@xavatech/xara-game-sdk": "^2.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vite": "^6.0.7",
+    "vitest": "^2.1.8"
+  }
+}

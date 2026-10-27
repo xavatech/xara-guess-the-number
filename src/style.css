@@ -1,0 +1,278 @@
+:root {
+  --ink: #1c1915;
+  --muted: #6b6258;
+  --paper: #f4efe4;
+  --card: #fffaf2;
+  --line: #e4d8c4;
+  --stamp: #b42318;
+  --stamp-soft: #fde8e4;
+  --ok: #1f7a4d;
+  --ok-soft: #e5f6ec;
+  font-family: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 20% 0%, #fff 0, transparent 42%),
+    var(--paper);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overscroll-behavior: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+main {
+  min-height: 100dvh;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: max(24px, env(safe-area-inset-top)) 20px max(24px, env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-rows: auto 28px 88px 96px auto 52px 20px;
+  align-content: center;
+  justify-items: center;
+  row-gap: 16px;
+}
+
+.players {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin: 0;
+}
+
+.player {
+  flex: 1;
+  margin: 0;
+  min-width: 0;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  text-align: center;
+}
+
+.player.turn {
+  border-color: var(--ink);
+}
+
+.player.winner {
+  background: var(--ok-soft);
+  border-color: var(--ok);
+}
+
+.name {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.vs {
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.status {
+  margin: 0;
+  height: 28px;
+  line-height: 28px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.slip {
+  width: 100%;
+  height: 88px;
+  padding: 12px 16px;
+  border: 1px dashed var(--line);
+  border-radius: 16px;
+  background: var(--card);
+  text-align: center;
+}
+
+.range,
+.verdict,
+.hint-line {
+  margin: 0;
+  height: 22px;
+  line-height: 22px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.range {
+  font-variant-numeric: tabular-nums;
+  font-size: 20px;
+  letter-spacing: 0.12em;
+}
+
+.verdict,
+.hint-line {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.hint-line {
+  color: var(--stamp);
+  font-weight: 700;
+}
+
+.history {
+  width: 100%;
+  height: 96px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: auto;
+}
+
+.history li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  height: 24px;
+  line-height: 24px;
+  font-size: 14px;
+}
+
+.history .who {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.history .call {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.history .call.correct {
+  color: var(--ok);
+  font-weight: 700;
+}
+
+.pad {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+.key {
+  height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
+  touch-action: manipulation;
+}
+
+.key:disabled {
+  color: var(--muted);
+}
+
+.key.taken {
+  background: var(--paper);
+  text-decoration: line-through;
+}
+
+.key.in-hint {
+  border-style: dashed;
+  border-color: var(--stamp);
+  background: var(--stamp-soft);
+}
+
+.key.won {
+  background: var(--ok);
+  border-color: var(--ok);
+  color: #fff;
+  text-decoration: none;
+}
+
+.key.pending {
+  opacity: 0.55;
+}
+
+.actions {
+  width: 100%;
+  height: 52px;
+  display: grid;
+  place-items: center;
+}
+
+.action {
+  grid-area: 1 / 1;
+  height: 48px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition: opacity 180ms ease, transform 180ms ease, visibility 0s linear 180ms;
+  touch-action: manipulation;
+}
+
+.action.shown {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.secondary {
+  background: var(--stamp);
+  color: #fff;
+}
+
+.action:active {
+  transform: scale(0.97);
+}
+
+.note {
+  margin: 0;
+  width: 100%;
+  height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--stamp);
+  font-size: 13px;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

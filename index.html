@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; frame-src 'none'" />
+    <title>Guess the Number</title>
+  </head>
+  <body>
+    <main>
+      <header class="players" aria-label="Players">
+        <p class="player" id="player-a"><span class="name" id="name-a">Player 1</span></p>
+        <span class="vs">vs</span>
+        <p class="player" id="player-b"><span class="name" id="name-b">Player 2</span></p>
+      </header>
+
+      <p id="status" class="status" aria-live="polite">Loading…</p>
+
+      <section class="slip" aria-label="The number">
+        <p class="range">1 – 10</p>
+        <p id="verdict" class="verdict"></p>
+        <p id="hint-line" class="hint-line"></p>
+      </section>
+
+      <ol id="history" class="history" aria-label="Guesses"></ol>
+
+      <div id="pad" class="pad" role="group" aria-label="Guess a number"></div>
+
+      <div class="actions">
+        <button id="accept" class="action primary" tabindex="-1">Accept and play</button>
+        <button id="hint" class="action secondary" tabindex="-1">Buy a hint · ₦100</button>
+      </div>
+
+      <p id="note" class="note" role="alert"></p>
+    </main>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>
