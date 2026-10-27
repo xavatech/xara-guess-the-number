@@ -21,5 +21,4 @@ npm run build   # static files in dist/
 2. In the Xara business dashboard, open **Games → Submit a game** with the URL, 2 players, and SDK version `2.0.0`.
 3. Once an admin approves it, people find it under **+ → Game** in their chats.
 
-For development, the backend's `Game` seeder registers this game as approved for business user 12: set `GUESS_THE_NUMBER_URL` and run the seeders.
-# xara-guess-the-number
+Xara serves this game with its other games from [xara-games](https://github.com/xavatech/xara-games), at `/guess-the-number/`.
