@@ -18,7 +18,7 @@ npm run build   # static files in dist/
 ## Ship it
 
 1. Serve `dist/` over **https**. Xara only opens https games and only answers SDK calls from that URL's origin.
-2. In the Xara business dashboard, open **Games → Submit a game** with the URL, 2 players, and SDK version `2.0.0`.
+2. In the Xara business dashboard, open **Games → Submit a game** with the URL, 2 players, and SDK version `2.1.0`.
 3. Once an admin approves it, people find it under **+ → Game** in their chats.
 
 Xara serves this game with its other games from [xara-games](https://github.com/xavatech/xara-games), at `/guess-the-number/`.

@@ -4,8 +4,8 @@ import { HIGH, LOW, guessesOf, hintBand, hintLine, secretOf, verdict, type Guess
 
 const HINT_PRICE = 100;
 
-// In `npm run dev` outside the app, a mock host lets both players take turns on one screen.
-if (import.meta.env.DEV && !inXara()) {
+// Outside the app, a bar switches which player's phone this page is.
+if (!inXara()) {
   mockApp({
     game: { id: 2, name: "Guess the Number" },
     players: [
@@ -50,6 +50,18 @@ let busy = false;
 const nameOf = (state: State, playerId: number) =>
   state.players.find((player) => player.id === playerId)?.name ?? "Someone";
 
+/** This phone's turn, including the starter's move while others are still invited. */
+function myTurn(state: State): boolean {
+  if (xara.isMyTurn()) return true;
+  const mine = state.players.find((player) => player.you);
+  return (
+    !state.me.watching &&
+    mine?.status === "accepted" &&
+    state.session.status === "invited" &&
+    state.session.turn === state.me.id
+  );
+}
+
 const hintRef = (state: State) => `hint-${state.session.id}`;
 
 function hasHint(state: State): boolean {
@@ -61,10 +73,11 @@ function statusText(state: State): string {
   switch (session.status) {
     case "invited": {
       const mine = state.players.find((player) => player.you);
-      return mine?.status === "invited" ? "You've been invited to play" : "Waiting for everyone to accept";
+      if (mine?.status === "invited") return "You've been invited to play";
+      if (!myTurn(state)) return "Waiting for everyone to accept";
     }
     case "active": {
-      if (!pending) return xara.isMyTurn() ? "Your turn" : `${nameOf(state, session.turn ?? 0)}'s turn`;
+      if (!pending) return myTurn(state) ? "Your turn" : `${nameOf(state, session.turn ?? 0)}'s turn`;
       const index = state.players.findIndex((player) => player.id === me.id);
       return `${state.players[(index + 1) % state.players.length].name}'s turn`;
     }
@@ -87,7 +100,7 @@ function render(state: State) {
   const taken = new Set(guesses.map((guess) => guess.n));
   if (pending != null) taken.add(pending);
   const won = guesses.some((guess) => guess.n === secret) || pending === secret;
-  const playable = xara.isMyTurn() && !busy && !won;
+  const playable = myTurn(state) && !busy && !won;
   const band = hasHint(state) ? hintBand(secret) : null;
   const last = pending != null ? { n: pending, playerId: state.me.id } : guesses[guesses.length - 1];
 
@@ -125,7 +138,7 @@ function render(state: State) {
         : `${last.n} is too high`;
   hintEl.textContent = band && !won ? hintLine(secret) : "";
 
-  const turn = state.session.status === "active" && !pending ? state.session.turn : null;
+  const turn = (state.session.status === "active" || state.session.status === "invited") && !pending ? state.session.turn : null;
   const winners = state.session.outcome?.winners ?? [];
   state.players.slice(0, 2).forEach((player, index) => {
     nameEls[index].textContent = player.name;
@@ -166,7 +179,7 @@ async function run(action: () => Promise<unknown>) {
 
 function guess(n: number) {
   const state = xara.state;
-  if (!state || !xara.isMyTurn() || busy) return;
+  if (!state || !myTurn(state) || busy) return;
   const secret = secretOf(state.session.id);
   const taken = new Set(guessesOf(state.moves).map((guess) => guess.n));
   if (taken.has(n) || n < LOW || n > HIGH) return;

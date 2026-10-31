@@ -11,7 +11,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@xavatech/xara-game-sdk": "^2.0.0"
+    "@xavatech/xara-game-sdk": "^2.1.0"
   },
   "devDependencies": {
     "typescript": "^5.7.2",
